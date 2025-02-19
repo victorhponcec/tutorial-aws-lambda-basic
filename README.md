@@ -1,10 +1,10 @@
-#Tutorial: Creating a basic Lambda function in AWS with Terraform
+# Tutorial: Creating a basic Lambda function in AWS with Terraform
 AWS | Terraform | Lambda Function | Serverless
 
-#Summary
+# Summary
 In this small tutorial we are going to create a Lambda function in AWS using Infrastructure as Code (IaC) with Terraform.
 
-#Lambda Code
+# Lambda Code
 
 The first thing we are going to do is to create our code in Python. Create a folder called lambda_code and inside a file lambda.py. We’ll later generate a ZIP file from this. 
 
@@ -19,7 +19,7 @@ def hello_handler(event, context):
     }
 ```
 
-#Setting up the Providers
+# Setting up the Providers
 
 For this tutorial we’ll only need the AWS provider. We are using the latest version "5.87.0".
 You can find more information about the AWS Provider in the [Terraform Registry](https://registry.terraform.io/providers/hashicorp/aws/latest)
@@ -105,7 +105,7 @@ data "archive_file" "zip_py" {
   output_path = "${path.module}/lambda_code/lambda.zip"
 }
 ```
-#Creating our Lambda Function
+# Creating our Lambda Function
 
 Finally, we can create our lambda function. Notice that we are referencing the ZIP file and the role, as well as the policy attachment. 
 
@@ -120,7 +120,34 @@ resource "aws_lambda_function" "lambda_hello" {
   depends_on = [ aws_iam_role_policy_attachment.attach_role_policy_lambda ]
 }
 ```
+# Apply Changes
 
+On our local console we need to initialize our project, plan and apply. 
+
+```
+terraform init
+terraform plan
+terraform apply 
+```
+
+# Testing
+
+We can verify our Lambda function in the AWS Management Console by navigating to Lambda > Functions > lambda_hello_py
+
+![imagen](https://github.com/user-attachments/assets/dfd7fb5c-e672-4be0-be4c-b770bca6eaee)
+
+On the same screen, go to the "Test" tab and edit the Event Json with the following code, which will pass the variables to our Lambda Function to be processed. 
+
+```
+{
+  "first_name": "victor",
+  "last_name": "ponce"
+}
+```
+
+Click on Test and you should be able to see a successful execution. 
+
+![imagen](https://github.com/user-attachments/assets/a8d4dc16-186a-4112-87be-a550cb4700cf)
 
 
 
