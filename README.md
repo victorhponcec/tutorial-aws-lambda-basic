@@ -93,7 +93,7 @@ resource "aws_iam_role_policy_attachment" "attach_role_policy_lambda" {
 }
 ```
 
-#Creating a ZIP file for our Lambda
+# Creating a ZIP file for our Lambda
 
 Now we need to create a ZIP file containing our Python code, which will be uploaded to AWS. 
 
